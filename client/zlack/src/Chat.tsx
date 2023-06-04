@@ -1,15 +1,16 @@
 import { SetStateAction, useEffect, useState} from "react"
 
-
+let ws=new WebSocket("ws://127.0.0.1:5001/ws")
 
 export default function Chat() {
 
   const [socket, setSocket]=useState<WebSocket|null>(null)
   const [text, setText]=useState("")
   const [room, setRoom]=useState<string>("")
+  const [username, setUsername]=useState("")
 
   useEffect(()=>{
-    let ws=new WebSocket("ws://127.0.0.1:5000/ws")
+
     ws.onopen=(e)=>{
       console.log("The connection was established")
       //ws.send("Hello from the client")
@@ -32,13 +33,17 @@ export default function Chat() {
     setText(e.target.value)
   }
 
-  const handleClick=()=>{
+  const handleUsernameChnage=(e:any)=>{
+    setUsername(e.target.value)
+  }
+
+  const handleSendMessage=()=>{
     const num=parseInt(room)
     socket?.send(JSON.stringify({
+      command: "SEND",
       message: text,
-      user: "Ishan",
-      roomID: num,
-      command: "SEND"
+      username: username,
+      channel: num
     }))
   }
 
@@ -49,19 +54,24 @@ export default function Chat() {
   const handleJoinRoom=()=>{
     const num=parseInt(room)
     socket?.send(JSON.stringify({
-      message: text,
-      user: "John",
       command: "JOIN",
-      roomID: num
+      message: text,
+      username:  username,
+      channel: num
     }))
   }
   return (
     <div>
-      <input onChange={handleChange} />
-      <button onClick={handleClick}>Send</button>
+      <button onClick={handleSendMessage}>Send Message</button>
 
       <p>Join</p>
+      Username
+      <input onChange={handleUsernameChnage} />
+      Channel ID
       <input onChange={handleRoomChange}/>
+      Message
+      <input onChange={handleChange} />
+
       <button onClick={handleJoinRoom}>Join</button>
     </div>
   )

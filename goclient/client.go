@@ -12,7 +12,7 @@ import (
 
 func main() {
 	dialer := *websocket.DefaultDialer
-	conn, _, err := dialer.Dial("ws://127.0.0.1:5000/ws", nil)
+	conn, _, err := dialer.Dial("ws://127.0.0.1:5001/ws", nil)
 	if err != nil {
 		fmt.Printf("Could not establish websocket connection")
 		return

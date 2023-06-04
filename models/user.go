@@ -1,9 +1,10 @@
 package models
 
-import "github.com/gorilla/websocket"
+import "gorm.io/gorm"
 
 type User struct {
-	Username string
-	Id       int
-	Conn     *websocket.Conn
+	gorm.Model
+	Username  string `json:"username"`
+	Messages  []Message
+	ChannelID uint `json:"channel"`
 }

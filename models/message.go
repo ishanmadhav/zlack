@@ -1,8 +1,10 @@
 package models
 
+import "gorm.io/gorm"
+
 type Message struct {
-	Message  string `json:"message"`
-	Username string `json:"user"`
-	RoomID   int    `json:"roomID"`
-	Commannd string `json:"command"`
+	gorm.Model
+	Text      string `json:"text"`
+	UserID    uint   `json:"userId"`
+	ChannelID uint   `json:"channelId"`
 }
