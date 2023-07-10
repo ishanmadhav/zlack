@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+
+option go_package = "github.com/ishanmadhav/zlack/api";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.helloworld";
+option java_outer_classname = "HelloWorldProto";
+
+package api;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+
+message Empty {
+
+}
+
+message User {
+  uint64 id=1;
+  string username=2;
+  string password=3;
+  string email=4;
+  string firstname=5;
+  string lastname=6;
+  string roles=7;
+}
+
+message CreateUserRequest {
+  string username=1;
+  string password=2;
+  string email=3;
+  string firstname=4;
+  string lastname=5;
+}
+
+message CreateUserResponse {
+  string username=1;
+  string password=2;
+  string email=3;
+  string firstname=4;
+  string lastname=5;
+  string roles=6; 
+}
+
+
+
+message GetUserByIDRequest {
+  uint64 id=1;
+}
+
+message GetUserResponse {
+  string username=1;
+  string password=2;
+  string email=3;
+  string firstname=4;
+  string lastname=5;
+  string roles=6; 
+}
+
+message GetAllUsersResponse {
+  repeated GetUserResponse users=1;
+}
+
+message GetUserByUsernameRequest {
+  string username=1;
+}
+
+message DeleteUserByIDRequest {
+  uint64 id=1;
+}
+
+message DeleteUserResponse {
+  uint64 id=1;
+}
+
+message DeleteAllUsersResponse {
+  repeated DeleteUserResponse users=1;
+}
+
+service UserService {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+  rpc GetUserByUsername (GetUserByUsernameRequest) returns (GetUserResponse) {}
+  rpc GetUserByID (GetUserByIDRequest) returns (GetUserResponse) {}
+  rpc GetAllUsers (Empty) returns (GetAllUsersResponse) {}
+  rpc DeleteUserByID(DeleteUserByIDRequest) returns (DeleteUserResponse) {}
+  rpc DeleteAllUsers(Empty) returns (DeleteAllUsersResponse) {}
+}
+
+message Workspace  {
+  uint64 id=1;
+  string name=2;
+  repeated User members=3;
+  repeated Channel channels=4;
+}
+
+message CreateWorkspaceRequest {
+  string name=1;
+  string username=2;
+}
+
+message CreateWorkspaceResponse {
+  uint64 id=1;
+  string name=2;
+}
+
+message GetWorkspaceByIDRequest {
+  uint64 id=1;
+}
+
+message GetWorkspaceResponse {
+  uint64 id=1;
+  string name=2;
+  repeated User members=3;
+  repeated Channel channels=4;
+}
+
+message GetAllWorkspacesResponse {
+  repeated GetWorkspaceResponse workspaces=1;
+}
+
+message DeleteWorkspaceByIDRequest {
+  uint64 id=1;
+}
+
+message DeleteWorkspaceResponse {
+  uint64 id=1;
+}
+
+
+service WorkspaceService {
+  rpc CreateWorkspace (CreateWorkspaceRequest) returns (CreateWorkspaceResponse) {}
+  rpc GetWorkspaceByID (GetWorkspaceByIDRequest) returns (GetWorkspaceResponse) {}
+  rpc GetAllWorkspaces (Empty) returns (GetAllWorkspacesResponse) {}
+  rpc DeleteWorkspaceByID(DeleteWorkspaceByIDRequest) returns (DeleteWorkspaceResponse) {}
+}
+
+
+message Channel {
+  uint64 id=1;
+  string name=2;
+  uint64 workspace_id=3;
+}
